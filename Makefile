@@ -3,8 +3,6 @@ BINARY=comicknife
 
 BUILDFOLDER = build/bin
 
-# goxc flag
-GOXCFLAG= -tasks-=validate -d ${BUILDFOLDER}
 
 default: fmt clean
 	go build -o ${BUILDFOLDER}/${BINARY} cmd/*.go
@@ -18,5 +16,5 @@ fmt:
 clean:
 	rm -rf frontend/dist/ && rm -rf build/
 
-cross-all:
-	goxc ${GOXCFLAG}
+all:
+	gox -output="build/${BINARY}_{{.OS}}_{{.Arch}}" cmd/*.go
