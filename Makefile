@@ -17,4 +17,4 @@ clean:
 	rm -rf frontend/dist/ && rm -rf build/
 
 all:
-	gox -output="build/${BINARY}_{{.OS}}_{{.Arch}}" cmd/*.go
+	cd cmd; gox -output="../build/${BINARY}_{{.OS}}_{{.Arch}}"
