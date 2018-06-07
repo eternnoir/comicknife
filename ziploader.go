@@ -14,10 +14,11 @@ import (
 type ZipLoader struct {
 	ImageConfig *ImageConfig
 	FilePath    string
+	OutputPath  string
 	Ext         string
 }
 
-func NewZipLoader(path string, cfg *ImageConfig) (*ZipLoader, error) {
+func NewZipLoader(path, outPath string, cfg *ImageConfig) (*ZipLoader, error) {
 	ext := filepath.Ext(path)
 	return &ZipLoader{
 		ImageConfig: cfg,
@@ -38,7 +39,8 @@ func (z *ZipLoader) Process() error {
 		return err
 	}
 
-	return imagesToZip(resultImgs, z.FilePath+"LR")
+	filename := filepath.Base(z.FilePath)
+	return imagesToZip(resultImgs, filepath.Join(z.OutputPath, filename))
 }
 
 func imagesToZip(imgs []Image, path string) error {
