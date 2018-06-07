@@ -27,7 +27,7 @@ func run(c *cli.Context) error {
 	path := c.Args().Get(0)
 	outPath := c.Args().Get(1)
 	if outPath == "" {
-		outPath = "./"
+		outPath = "./split"
 	}
 	fmt.Printf("Start to get loader for %s\n. Output to :%s\n", path, outPath)
 

@@ -23,6 +23,7 @@ func NewZipLoader(path, outPath string, cfg *ImageConfig) (*ZipLoader, error) {
 	return &ZipLoader{
 		ImageConfig: cfg,
 		FilePath:    path,
+		OutputPath:  outPath,
 		Ext:         ext,
 	}, nil
 }
@@ -38,12 +39,13 @@ func (z *ZipLoader) Process() error {
 	if err != nil {
 		return err
 	}
-
+	os.MkdirAll(z.OutputPath, os.ModePerm)
 	filename := filepath.Base(z.FilePath)
 	return imagesToZip(resultImgs, filepath.Join(z.OutputPath, filename))
 }
 
 func imagesToZip(imgs []Image, path string) error {
+	fmt.Printf("Output file:%s\n", path)
 	d, err := os.Create(path)
 	if err != nil {
 		return err
