@@ -92,7 +92,6 @@ func loadImagesFromZipFile(path string, cfg *ImageConfig) ([]Image, error) {
 		}
 		defer rc.Close()
 		filename := file.Name
-		fmt.Printf("Load image %s\n", filename)
 		src, err := imaging.Decode(rc)
 		if err != nil {
 			return nil, err

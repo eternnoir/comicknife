@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"sync"
 
 	"github.com/eternnoir/comicknife"
 	"github.com/urfave/cli"
@@ -24,21 +25,31 @@ func main() {
 }
 
 func run(c *cli.Context) error {
-	path := c.Args().Get(0)
-	outPath := c.Args().Get(1)
-	if outPath == "" {
-		outPath = "./split"
+	var wg sync.WaitGroup
+	for _, filepath := range c.Args() {
+		wg.Add(1)
+		go func(f string) {
+			if err := runOneFile(&wg, f); err != nil {
+				fmt.Printf("[ERROR] %s\n", err.Error())
+			}
+		}(filepath)
 	}
-	fmt.Printf("Start to get loader for %s\n. Output to :%s\n", path, outPath)
+	wg.Wait()
+	fmt.Println("All done")
+	return nil
+}
 
-	loader, err := BuildLoader(path, outPath)
+func runOneFile(wg *sync.WaitGroup, path string) error {
+	defer wg.Done()
+	fmt.Printf("Start to get loader for %s\n. Output to :%s\n", path, flagOutputPath)
+
+	loader, err := BuildLoader(path, flagOutputPath)
 	if err != nil {
 		return err
 	}
 	if err := loader.Process(); err != nil {
 		return err
 	}
-	fmt.Println("All done")
 	return nil
 }
 

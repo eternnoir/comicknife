@@ -6,6 +6,7 @@ import (
 )
 
 var Config *comicknife.ImageConfig = comicknife.NewDefaultConfig()
+var flagOutputPath = ""
 
 var flags []cli.Flag = []cli.Flag{
 	cli.BoolFlag{
@@ -18,6 +19,13 @@ var flags []cli.Flag = []cli.Flag{
 		Value:       "RL",
 		Usage:       "Direction. eg. \"RL\" or \"LR\"",
 		Destination: &Config.Direction,
+	},
+
+	cli.StringFlag{
+		Name:        "o",
+		Value:       "./split",
+		Usage:       "Output folder",
+		Destination: &flagOutputPath,
 	},
 	cli.StringFlag{
 		Name:        "f",
