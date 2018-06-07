@@ -8,6 +8,11 @@ import (
 var Config *comicknife.ImageConfig = comicknife.NewDefaultConfig()
 
 var flags []cli.Flag = []cli.Flag{
+	cli.BoolFlag{
+		Name:        "fc",
+		Usage:       "Force crop event image height > width",
+		Destination: &Config.FoceCrop,
+	},
 	cli.StringFlag{
 		Name:        "d",
 		Value:       "RL",

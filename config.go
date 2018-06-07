@@ -13,6 +13,7 @@ type ImageConfig struct {
 	OutputFormat        string
 	PNGCompressionLevel int
 	JPEGQuality         int
+	FoceCrop            bool
 }
 
 func NewDefaultConfig() *ImageConfig {

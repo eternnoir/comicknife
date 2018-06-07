@@ -27,6 +27,9 @@ func (i *Image) Cut() ([]Image, error) {
 	}
 	w := ic.Width
 	h := ic.Height
+	if (ic.Height > ic.Width) && !i.cfg.FoceCrop {
+		return []Image{*i}, nil
+	}
 	var extension = filepath.Ext(i.FileName)
 	var name = i.FileName[0 : len(i.FileName)-len(extension)]
 	leftImg := imaging.CropAnchor(i.Image, w/2, h, imaging.TopLeft)
