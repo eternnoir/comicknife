@@ -39,7 +39,7 @@ var flags []cli.Flag = []cli.Flag{
 	},
 	cli.IntFlag{
 		Name:        "pc",
-		Value:       -3,
+		Value:       0,
 		Usage:       "PNGCompressionLevel. 0, -1, -2, -3",
 		Destination: &Config.PNGCompressionLevel,
 	},
