@@ -12,6 +12,8 @@ import (
 	"github.com/urfave/cli"
 )
 
+var pnchain chan struct{}
+
 func main() {
 	app := cli.NewApp()
 	app.Name = "ComicKnife"
@@ -25,10 +27,24 @@ func main() {
 }
 
 func run(c *cli.Context) error {
+	if flagParallelNumber < 1 {
+		flagParallelNumber = 2
+	}
+	if flagRunnerNumber < 1 {
+		flagRunnerNumber = 10
+	}
+
+	pnchain = make(chan struct{}, flagParallelNumber)
+
+	comicknife.LimitChain = make(chan struct{}, flagRunnerNumber)
 	var wg sync.WaitGroup
 	for _, filepath := range c.Args() {
 		wg.Add(1)
+		pnchain <- struct{}{}
 		go func(f string) {
+			defer func() {
+				<-pnchain
+			}()
 			if err := runOneFile(&wg, f); err != nil {
 				fmt.Printf("[ERROR] %s\n", err.Error())
 			}

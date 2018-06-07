@@ -12,6 +12,8 @@ import (
 	"github.com/disintegration/imaging"
 )
 
+var LimitChain = make(chan struct{}, 10)
+
 type Image struct {
 	image.Image
 	imgConfig image.Config
@@ -80,8 +82,12 @@ func BatchCut(imgs []Image, cfg *ImageConfig) ([]Image, error) {
 	var wg sync.WaitGroup
 	for _, img := range imgs {
 		wg.Add(1)
+		LimitChain <- struct{}{}
 		go func(limg Image) {
 			defer wg.Done()
+			defer func() {
+				<-LimitChain
+			}()
 			lrImgs, err := limg.Cut()
 			if err != nil {
 				panic(err)

@@ -6,7 +6,11 @@ import (
 )
 
 var Config *comicknife.ImageConfig = comicknife.NewDefaultConfig()
-var flagOutputPath = ""
+var (
+	flagOutputPath     = ""
+	flagRunnerNumber   = 10
+	flagParallelNumber = 2
+)
 
 var flags []cli.Flag = []cli.Flag{
 	cli.BoolFlag{
@@ -44,5 +48,17 @@ var flags []cli.Flag = []cli.Flag{
 		Value:       100,
 		Usage:       "JPEGQuality.",
 		Destination: &Config.JPEGQuality,
+	},
+	cli.IntFlag{
+		Name:        "rn",
+		Value:       10,
+		Usage:       "Runner number.",
+		Destination: &flagRunnerNumber,
+	},
+	cli.IntFlag{
+		Name:        "pn",
+		Value:       2,
+		Usage:       "Parallel number.",
+		Destination: &flagParallelNumber,
 	},
 }
