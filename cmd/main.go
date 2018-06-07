@@ -29,7 +29,7 @@ func run(c *cli.Context) error {
 	if outPath == "" {
 		outPath = "./"
 	}
-	fmt.Printf("Start to get loader for %s\n. Output to :%s", path, outPath)
+	fmt.Printf("Start to get loader for %s\n. Output to :%s\n", path, outPath)
 
 	loader, err := BuildLoader(path, outPath)
 	if err != nil {
