@@ -57,9 +57,7 @@ func (i *Image) GetConfig() (image.Config, error) {
 }
 
 func (i *Image) OutputFileName() string {
-	var extension = filepath.Ext(i.FileName)
-	var name = i.FileName[0 : len(i.FileName)-len(extension)]
-	return name + "." + strings.ToLower(i.OutFormat.String())
+	return i.FileName + "." + strings.ToLower(i.OutFormat.String())
 }
 
 func (i *Image) Bytes() ([]byte, error) {
