@@ -75,9 +75,9 @@ func BuildLoader(path, outPath string) (comicknife.Loader, error) {
 	}
 
 	ext := filepath.Ext(path)
+	fmt.Println(ext)
 	switch ext {
-	case ".zip":
-	case ".cbz":
+	case ".cbz", ".zip":
 		fmt.Printf("Ext is %s use zip loader.\n", ext)
 		return comicknife.NewZipLoader(path, outPath, Config)
 	default:
